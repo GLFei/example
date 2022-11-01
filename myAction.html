@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./hightlight.js"></script>
+    <link href="./hightlight.css" rel="stylesheet" />
+    <style>
+        .contianer {
+            display: flex;
+            /* flex-direction: row; */
+            /* background-color: red; */
+            height: 100vh;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="contianer">
+        <pre>
+            <code id="style-code" class="text language-css"></code>
+        </pre>
+        <div class="github">
+            <div class="head"></div>
+            <div class="body"></div>
+        </div>
+    </div>
+
+    <style id="style-text"></style>
+</body>
+<script>
+    let styles = `
+.github {
+    width: 160px;
+    height: 160px;
+    background-color: rgb(27, 31, 35);
+    border-radius: 999px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.head::before,
+.head::after,
+.body::before,
+.body::after {
+    content: "";
+    position: absolute;
+}
+
+.head {
+    height: 76px;
+    width: 104px;
+    background-color: white;
+    border-radius: 90px 90px 80px 80px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 24%;
+}
+
+.head::before {
+    height: 50px;
+    width: 50px;
+    background-color: white;
+    border-radius: 7% 90% 7% 90%;
+    transform: rotate(14deg);
+}
+
+.head::after {
+    height: 50px;
+    width: 50px;
+    background-color: white;
+    border-radius: 7% 90% 7% 90%;
+    transform: rotate(76deg);
+    right: 0;
+}
+
+
+.body {
+    width: 44px;
+    height: 50px;
+    background-color: white;
+    border-radius: 10px 10px 0 0;
+    position: absolute;
+    bottom: 0;
+    transform: translate(-50%);
+    left: 50%;
+}
+
+.body::before {
+    left: -27px;
+    top: -23px;
+    width: 33px;
+    height: 40px;
+    background-color: transparent;
+    border-left: 6px solid transparent;
+    border-bottom: 10px solid white;
+    border-right: 14px solid transparent;
+    border-radius: 0px 1px 39px 24px;
+    transform: rotate(14deg);
+}
+
+.body::after {
+    left: -46px;
+    top: 6px;
+    width: 20px;
+    height: 20px;
+    background-color: transparent;
+    border-left: 1px solid transparent;
+    border-right: 16px solid transparent;
+    border-top: 9px solid white;
+    border-radius: 50% 50%;
+    transform: rotate(34deg);
+}
+        `;
+
+
+
+    // document.body.insertAdjacentHTML(
+    //     'beforeend',
+    //     `\<style id="style-tag"></style>
+    //       <div class="github-box">
+    //         <span class="github"><i><i></i></i></span>
+    //      </div>
+    //      <pre id="style-text"></pre>\
+    //     `,
+    // );
+    writeStyles(styles, 0, 24);
+
+    // 计算样式是否添加完成
+    function writeStyles(message, index, interval) {
+        if (index < message.length) {
+
+            writeStyleChar(message[index++])
+            return setTimeout(
+                () => writeStyles(message, index, interval), interval
+            )
+        }
+    }
+
+    function writeStyleChar(text) {
+        // document.getElementById('style-text').innerHTML += text;
+        document.getElementById('style-text').insertAdjacentHTML('beforeend', text);
+        document.getElementById('style-code').innerHTML += text;
+        hljs.highlightAll();
+    }
+</script>
+
+</html>
